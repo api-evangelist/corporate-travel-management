@@ -1,0 +1,74 @@
+generated: '2026-07-28'
+method: derived
+source:
+- https://portal-host.api.ctmsmart.com/
+- https://portal-host.api.ctmsmart.com/health
+- https://www.ctmsmart.com.au/
+- https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+summary: >-
+  Corporate Travel Management documents no API conventions, because it documents no API. What can be
+  stated is derived from live behaviour of the one CTM API host that is publicly reachable — the CTM
+  Portal host API at portal-host.api.ctmsmart.com — plus the portal's own client configuration.
+  Everything below is observation, not a published contract, and nothing here is a commitment CTM
+  has made to anyone.
+authentication:
+  style: OAuth 2.0 / OIDC bearer token from Auth0
+  issuer: https://travelctm-au-production.au.auth0.com/
+  detail: authentication/corporate-travel-management-authentication.yml
+  documented: false
+base_url:
+  api: https://portal-host.api.ctmsmart.com/api
+  attribution: '`hostApiUrl` in the CTM Portal environmentSettings block at https://www.ctmsmart.com.au/'
+  liveness: 'GET / and GET /api return HTTP 200 text/plain "Healthy".'
+error_envelope:
+  media_type: application/problem+json
+  shape: ASP.NET Core ProblemDetails
+  members: [Type, Title, Status, Detail, Instance, Extensions]
+  conformance: >-
+    Correct media type, non-conformant serialization — RFC 7807/9457 define lowercase members
+    (type/title/status/detail/instance). No problem type URIs are minted; the observed Type was null.
+  observed_example:
+    request: GET https://portal-host.api.ctmsmart.com/health
+    status: 500
+    body: >-
+      {"Type":null,"Title":"Internal Server Error","Status":500,"Detail":"The AuthorizationPolicy
+      named: 'admin' was not found.","Instance":"/health","Extensions":{}}
+  see_also: conformance/corporate-travel-management-conformance.yml
+idempotency:
+  supported: unknown
+  documented: false
+  note: >-
+    No idempotency key header, parameter or retry contract is documented or observable. No
+    Idempotency pointer is wired into apis.yml.
+pagination:
+  style: unknown
+  documented: false
+versioning:
+  scheme: unknown
+  documented: false
+  note: >-
+    No version segment is visible in the portal's configured API base path (`/api`, not `/api/v1`),
+    and no versioning or deprecation policy is published. See
+    lifecycle/corporate-travel-management-lifecycle.yml.
+rate_limiting:
+  signalled: unknown
+  documented: false
+request_tracing:
+  header: unknown
+  documented: false
+  note: >-
+    The portal instruments itself with Azure Application Insights and New Relic client-side, but no
+    correlation header contract is published for API callers.
+metadata_and_expansion:
+  supported: unknown
+  documented: false
+platform_observations:
+  api_runtime: ASP.NET Core (policy-based authorization; ProblemDetails error handler)
+  api_hosting: Microsoft Azure (Australia East — Application Insights ingestion endpoint is australiaeast-1)
+  portal_runtime: SvelteKit single-page application
+  cdn: Azure Blob Storage (cdn.ctmsmart.com.au returns an Azure Storage XML error for a bare GET)
+notes: >-
+  This artifact exists to record what an integrator would actually meet on the wire, and to make the
+  absence of every cross-cutting contract explicit rather than silent. It is not evidence of an
+  integration route: portal-host.api.ctmsmart.com is a private back end for CTM's own portal, has no
+  public documentation, no sign-up and no terms permitting third-party use.

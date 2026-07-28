@@ -1,0 +1,45 @@
+generated: '2026-07-28'
+method: searched
+source:
+- https://au.travelctm.com/
+- https://us.travelctm.com/
+- https://www.ctmsmart.com.au/
+- https://au.travelctm.com/terms-and-conditions/
+summary: >-
+  Corporate Travel Management publishes no lifecycle transparency of any kind for its technology
+  products. There is no status page, no versioning policy, no deprecation or sunset policy, no
+  release notes or changelog, no SLA and no roadmap on any public CTM property. Customers running on
+  Lightning, CTM Portal, CTM Approve and CTM Data Hub have no public channel through which to learn
+  that a system is degraded or that a capability is changing.
+versioning:
+  scheme: null
+  current: null
+  docs: null
+  note: >-
+    The portal's configured API base path carries no version segment
+    (https://portal-host.api.ctmsmart.com/api). npm is the only place a CTM version number is
+    publicly observable at all — @travelctm/compass 2.0.0-rc.19, @travelctm/icons 3.0.0-alpha.0,
+    scout-portal-prod 1.3.5 (155 releases, latest 2026-07-24).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No deprecation, sunset or end-of-life policy is published.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No service level agreement or availability target is published. Any SLA would live in the
+    private customer services agreement, which CTM does not publish.
+status_page: null
+status_page_probes:
+- url: https://status.travelctm.com/
+  result: NXDOMAIN
+- url: https://www.travelctm.com/status
+  result: 404
+changelog: null
+release_notes: null
+roadmap: null
+deprecated_operations: []
+notes: >-
+  No StatusPage, Deprecation, ChangeLog or Roadmap pointer is wired into apis.yml — none of these
+  exist. Recorded so the gap is explicit and re-checkable on the next round.

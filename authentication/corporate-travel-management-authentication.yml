@@ -1,0 +1,91 @@
+generated: '2026-07-28'
+method: searched
+source:
+- https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+- https://travelctm-au-production.au.auth0.com/.well-known/oauth-authorization-server
+- https://www.ctmsmart.com.au/
+- https://portal-host.api.ctmsmart.com/health
+summary:
+  types: [oauth2, openIdConnect]
+  provider: Auth0 (AU region, production tenant)
+  documented_by_provider: false
+  derived_from_openapi: false
+  note: >-
+    CTM publishes no authentication documentation, because it publishes no API documentation. This
+    profile is probed, not documented: the CTM Portal bootstrap script names the Auth0 tenant, and
+    that tenant serves a complete anonymous OIDC/RFC 8414 discovery document. Everything below comes
+    from those two live sources. No API key, HTTP basic, mTLS or other scheme is published anywhere
+    on a CTM property.
+schemes:
+- name: Auth0 OIDC (CTM Portal)
+  type: openIdConnect
+  issuer: https://travelctm-au-production.au.auth0.com/
+  openIdConnectUrl: https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+  jwks_uri: https://travelctm-au-production.au.auth0.com/.well-known/jwks.json
+  endpoints:
+    authorization: https://travelctm-au-production.au.auth0.com/authorize
+    token: https://travelctm-au-production.au.auth0.com/oauth/token
+    userinfo: https://travelctm-au-production.au.auth0.com/userinfo
+    revocation: https://travelctm-au-production.au.auth0.com/oauth/revoke
+    device_authorization: https://travelctm-au-production.au.auth0.com/oauth/device/code
+    backchannel_authentication: https://travelctm-au-production.au.auth0.com/bc-authorize
+    dynamic_client_registration: https://travelctm-au-production.au.auth0.com/oidc/register
+    mfa_challenge: https://travelctm-au-production.au.auth0.com/mfa/challenge
+  grant_types_supported:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - implicit
+  - password
+  - urn:ietf:params:oauth:grant-type:device_code
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  - urn:ietf:params:oauth:grant-type:jwt-bearer
+  - http://auth0.com/oauth/grant-type/password-realm
+  - http://auth0.com/oauth/grant-type/passwordless/otp
+  - http://auth0.com/oauth/grant-type/mfa-oob
+  - http://auth0.com/oauth/grant-type/mfa-otp
+  - http://auth0.com/oauth/grant-type/mfa-recovery-code
+  response_types_supported: [code, token, id_token, code token, code id_token, token id_token, code token id_token]
+  response_modes_supported: [query, fragment, form_post]
+  code_challenge_methods_supported: [S256, plain]
+  token_endpoint_auth_methods_supported: [client_secret_basic, client_secret_post, private_key_jwt, none]
+  id_token_signing_alg_values_supported: [HS256, RS256, PS256]
+  dpop_signing_alg_values_supported: [ES256]
+  mfa: >-
+    Supported by the tenant — MFA challenge endpoint and mfa-oob / mfa-otp / mfa-recovery-code grant
+    types are advertised. Whether MFA is enforced for CTM Portal users is not publicly observable.
+  backchannel_logout_supported: true
+  connection: >-
+    The portal requests the `SMART-Database-Connection` Auth0 connection (a username/password
+    database connection), so the default CTM Portal login is local credentials rather than a
+    federated enterprise IdP. CTM's technology pages separately assert single sign-on integration
+    with customer systems; no such connection is publicly enumerable.
+  client_type: >-
+    Public SPA client (`token_endpoint_auth_method: none` is supported and the client id is embedded
+    in the portal page), consistent with authorization code + PKCE from the browser.
+protected_resources:
+- name: CTM Portal host API
+  base_url: https://portal-host.api.ctmsmart.com/api
+  scheme: Bearer JWT issued by the Auth0 tenant above (inferred from the SPA's configuration —
+    the API publishes no WWW-Authenticate challenge on unauthenticated public paths).
+  observed:
+  - path: /
+    status: 200
+    body: 'Healthy'
+  - path: /health
+    status: 500
+    content_type: application/problem+json
+    detail: "The AuthorizationPolicy named: 'admin' was not found."
+    note: >-
+      Confirms an ASP.NET Core application with named authorization policies; the misconfigured
+      policy leaks that authorization is policy-based. No operation is anonymously reachable.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /swagger/v1/swagger.json
+    status: 404
+signup:
+  self_service: false
+  note: >-
+    There is no developer sign-up, key request, or client registration path for third parties. Auth0
+    dynamic client registration is advertised at the tenant level but is a stock Auth0 endpoint, not
+    a CTM onboarding offer. Portal accounts are provisioned to contracted customers by CTM.

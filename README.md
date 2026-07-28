@@ -26,7 +26,23 @@ Its API posture is closed. CTM publishes no developer portal and no public API: 
 
 ## APIs
 
-None. Corporate Travel Management publishes no documented public API. `apis[]` in `apis.yml` is intentionally empty — see [review.yml](review.yml) for the full probe log and HTTP status of every URL tested.
+None documented. Corporate Travel Management publishes no developer portal, no API documentation and no machine-readable API contract — no OpenAPI, Swagger, GraphQL SDL, AsyncAPI, Protobuf or MCP manifest exists on any CTM host.
+
+One **undocumented** API host is recorded in `apis.yml`: the **CTM Portal Host API** at `https://portal-host.api.ctmsmart.com/api`, identified from the CTM Portal's own inline bootstrap configuration (`hostApiUrl`). It is live (`GET /` returns `Healthy`), runs on ASP.NET Core with policy-based authorization and `application/problem+json` errors, and is bearer-token protected through CTM's Auth0 tenant. Every specification path returns 404. It is listed as an observed integration surface, not as an available API — there is no documentation, sign-up, sandbox or terms permitting third-party use.
+
+See [review.yml](review.yml) for the full probe log and HTTP status of every URL tested.
+
+## What CTM does publish
+
+| Surface | Finding |
+| --- | --- |
+| Identity discovery | Auth0 tenant `travelctm-au-production.au.auth0.com` serves anonymous [OIDC Discovery](well-known/corporate-travel-management-openid-configuration.json) and [RFC 8414](well-known/corporate-travel-management-oauth-authorization-server.json) metadata plus JWKS — the only machine-readable documents CTM operates. |
+| Packages | Four first-party npm packages: `@travelctm/compass`, `@travelctm/icons`, `@travelctm/auth0-utils`, and `scout-portal-prod` (the CTM Scout widget the portal loads from unpkg). None is an API client SDK. |
+| Developer docs | [compass.ctmdevelopment.com](https://compass.ctmdevelopment.com/) — CTM's Compass design system documentation (Foundations / Components / Patterns). The only developer-facing documentation CTM publishes, and it documents UI, not APIs. |
+| Compliance | A real [PCI DSS v3.2.1 SAQ D Attestation of Compliance](https://au.travelctm.com/wp-content/uploads/2021/09/Payment-Card-Industry-Data-Security-Standard.pdf), self-assessed April 2021, not refreshed to PCI DSS v4. Part 2f names Sabre as CTM's GDS and Tramada Systems as its agency/mid-office platform. |
+| Trust centre | `trust.travelctm.com` serves an UpGuard Trust Center shell whose public API returns `{"status":"not_published"}` — provisioned and never published. |
+| Status / lifecycle | Nothing. No status page, versioning policy, deprecation policy, changelog, SLA or roadmap. |
+| security.txt | None on any CTM host. |
 
 ## Switching Cost
 

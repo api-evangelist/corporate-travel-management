@@ -1,0 +1,73 @@
+generated: '2026-07-28'
+method: searched
+source: https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+docs: null
+summary: >-
+  Corporate Travel Management publishes no scope or permission reference — there is no public API to
+  scope. The only scopes observable anywhere on a CTM property are the standard OpenID Connect
+  scopes and claim-scopes advertised by CTM's Auth0 tenant discovery document. They are Auth0/OIDC
+  defaults, not CTM-authored API permissions: no CTM resource scope (`read:bookings`,
+  `write:travellers`, …) is published, and the CTM Portal host API declares no
+  oauth-protected-resource metadata.
+schemes:
+- name: Auth0 OIDC (CTM Portal)
+  source: well-known/corporate-travel-management-openid-configuration.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://travelctm-au-production.au.auth0.com/authorize
+    tokenUrl: https://travelctm-au-production.au.auth0.com/oauth/token
+    pkce: [S256, plain]
+  - flow: clientCredentials
+    tokenUrl: https://travelctm-au-production.au.auth0.com/oauth/token
+  - flow: deviceCode
+    deviceAuthorizationUrl: https://travelctm-au-production.au.auth0.com/oauth/device/code
+  - flow: implicit
+    authorizationUrl: https://travelctm-au-production.au.auth0.com/authorize
+scopes:
+- scope: openid
+  description: Request an ID token (OpenID Connect).
+  kind: oidc-standard
+- scope: profile
+  description: Basic profile claims.
+  kind: oidc-standard
+- scope: email
+  description: Email address claim.
+  kind: oidc-standard
+- scope: email_verified
+  description: Email verification status claim.
+  kind: oidc-claim
+- scope: offline_access
+  description: Issue a refresh token.
+  kind: oidc-standard
+- scope: name
+  description: Full name claim.
+  kind: oidc-claim
+- scope: given_name
+  description: Given name claim.
+  kind: oidc-claim
+- scope: family_name
+  description: Family name claim.
+  kind: oidc-claim
+- scope: nickname
+  description: Nickname claim.
+  kind: oidc-claim
+- scope: picture
+  description: Profile picture claim.
+  kind: oidc-claim
+- scope: phone
+  description: Phone number claim.
+  kind: oidc-standard
+- scope: address
+  description: Address claim.
+  kind: oidc-standard
+- scope: created_at
+  description: Account creation timestamp claim (Auth0 extension).
+  kind: auth0-extension
+- scope: identities
+  description: Linked identity records claim (Auth0 extension).
+  kind: auth0-extension
+ctm_resource_scopes: []
+notes: >-
+  Recorded because the discovery document is real and anonymously fetchable, not because CTM
+  operates a scoped API programme. Any CTM-defined API scopes would live on an Auth0 API (audience)
+  registration, which is not publicly enumerable.

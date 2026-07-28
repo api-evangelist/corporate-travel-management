@@ -1,0 +1,126 @@
+generated: '2026-07-28'
+method: searched
+source:
+- https://au.travelctm.com/payment-card-industry-data-security-standard/
+- https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+- https://portal-host.api.ctmsmart.com/health
+- https://au.travelctm.com/privacy/
+- https://au.travelctm.com/ndc/
+- https://us.travelctm.com/ndc/
+summary: >-
+  Corporate Travel Management makes exactly one formal, document-backed compliance claim — a
+  published PCI DSS Attestation of Compliance — and inherits OAuth 2.0 / OpenID Connect conformance
+  from the Auth0 tenant that fronts its customer portal. Every API-design standard is not applicable
+  or not met, because CTM publishes no API contract. Its only named industry standard, IATA NDC, is
+  something it consumes from airlines rather than something it implements as a publisher.
+standards:
+- id: pci-dss
+  version: 3.2.1
+  conforms: true
+  evidence: >-
+    Published Attestation of Compliance for SAQ D – Merchants (PCI DSS v3.2.1), Corporate Travel
+    Management, Brisbane QLD. Part 3 asserts COMPLIANT; signed by the Global Chief Information
+    Officer on 15 April 2021, self-assessment completed April 2021. ASV scanning by Qualys PCI. No
+    compensating controls; some requirements marked N/A; none untested. Payment channels covered:
+    MOTO and e-commerce (card-present excluded). Scope: CTM's corporate travel business and branches
+    across Australia and New Zealand, 16 corporate offices.
+  document: https://au.travelctm.com/wp-content/uploads/2021/09/Payment-Card-Industry-Data-Security-Standard.pdf
+  caveats: >-
+    Self-assessment (SAQ D), not a QSA-led Report on Compliance — Part 1b (QSA) and Part 3c are
+    blank. The attestation is against PCI DSS v3.2.1, which was retired on 31 March 2024, and the
+    published document has not been refreshed to v4.0/v4.0.1. Treat it as evidence of a historic
+    compliance posture, not current validation.
+  named_third_parties_in_aoc:
+  - name: Tramada Systems
+    role: Agency systems / mid-office, traveller profiles, payments, accounting (payment application "Tramada", not PA-DSS listed)
+  - name: Sabre
+    role: Global Distribution System (GDS) and agency software
+  - name: Expedia
+    role: Hotel content / inventory and booking information
+  - name: Jetstar
+    role: Airline bookings
+  - name: Microsoft
+    role: Office productivity software, cloud storage, applications
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Auth0 tenant travelctm-au-production.au.auth0.com serves RFC 8414 authorization server metadata
+    at /.well-known/oauth-authorization-server (HTTP 200) advertising authorization_code,
+    client_credentials, refresh_token, device_code, token-exchange and jwt-bearer grants.
+- id: oidc-core
+  conforms: true
+  evidence: >-
+    OpenID Connect Discovery 1.0 document served at /.well-known/openid-configuration (HTTP 200)
+    with issuer, jwks_uri, userinfo_endpoint and the standard OIDC scope/claim set.
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported includes S256 (and plain).
+- id: rfc7517-jwks
+  conforms: true
+  evidence: /.well-known/jwks.json returns two RS256 signing keys.
+- id: rfc9126-par
+  conforms: false
+  evidence: No pushed_authorization_request_endpoint in the discovery document.
+- id: fapi
+  conforms: false
+  evidence: >-
+    No FAPI profile is advertised; the tenant still supports implicit and password grants and
+    plain PKCE, which FAPI forbids.
+- id: rfc7807-problem-details
+  conforms: true
+  evidence: >-
+    https://portal-host.api.ctmsmart.com/health returns Content-Type application/problem+json with a
+    Type/Title/Status/Detail/Instance/Extensions body (ASP.NET Core ProblemDetails). The member
+    names are PascalCase rather than the lowercase members RFC 7807/9457 define, so the media type
+    is right but the serialization is non-conformant.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Same response — problem+json media type but PascalCase members; no registered problem type URIs.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document exists on any CTM host. /openapi.json, /swagger.json,
+    /swagger/v1/swagger.json, /api-docs and /redoc all 404 on travelctm.com, its regional sites,
+    portal.travelctm.com, www.ctmsmart.com.au and portal-host.api.ctmsmart.com.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface is published.
+- id: graphql
+  conforms: false
+  evidence: /graphql returns 404 on every CTM host probed.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: No /.well-known/security.txt on any CTM host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No versioning or deprecation policy is published.
+- id: iata-ndc
+  conforms: false
+  role: consumer
+  evidence: >-
+    au.travelctm.com/ndc/ and us.travelctm.com/ndc/ describe Lightning ingesting live NDC content
+    from Qantas (Premium NDC connection), American Airlines and United Airlines. CTM cites no NDC
+    message schema version and no IATA certification level, and publishes no NDC endpoint of its
+    own — it is an NDC consumer, not an NDC publisher.
+- id: gdpr
+  conforms: true
+  evidence: >-
+    au.travelctm.com/privacy/ commits to UK/EU data subject rights including "the right to receive
+    the personal data you provided to us, in a structured, commonly used and machine-readable
+    format", exercised via DPO@travelctm.com. Commitment only — no certification, no self-service
+    export.
+- id: ccpa
+  conforms: true
+  evidence: >-
+    The same privacy policy grants California residents portability of "the specific pieces of
+    personal information we collected about you", exercised via privacy@travelctm.com.
+- id: soc2
+  conforms: unknown
+  evidence: >-
+    No SOC 2 report or claim is published. CTM operates an UpGuard trust page host at
+    trust.travelctm.com, but its public API returns {"status":"not_published"} — the trust centre
+    has been provisioned and never published.
+- id: iso-27001
+  conforms: unknown
+  evidence: No ISO 27001 certificate or claim is published on any CTM property.

@@ -1,0 +1,70 @@
+generated: '2026-07-28'
+method: searched
+source:
+- https://compass.ctmdevelopment.com/
+- https://www.npmjs.com/package/@travelctm/compass
+- https://www.npmjs.com/package/@travelctm/icons
+- https://www.npmjs.com/package/scout-portal-prod
+- https://www.ctmsmart.com.au/
+summary: >-
+  Corporate Travel Management runs a real, publicly reachable client-side component programme even
+  though it publishes no API. "Compass" is CTM's in-house design system — a Svelte component library
+  and icon package on public npm, documented on a public documentation website at
+  compass.ctmdevelopment.com (Foundations / Components / Patterns, with links out to a Jira project
+  and a Figma library). Separately, CTM Scout ships as an embeddable widget bundle that the CTM
+  Portal loads from a public CDN. Nothing here is an API surface: these are UI building blocks for
+  CTM's own products, published openly rather than offered as a partner integration.
+families:
+- name: Compass design system
+  kind: design-system
+  docs: https://compass.ctmdevelopment.com
+  docs_status: 200
+  sections:
+  - Foundations — colour, spacing, typography
+  - Components — anatomy and usage guidelines
+  - Patterns — common patterns and layouts
+  framework: Svelte / SvelteKit (Svelte 5 snippets)
+  version_documented: 1.3.0
+  packages:
+  - name: '@travelctm/compass'
+    version: 2.0.0-rc.19
+    registry: npm
+    role: Component library
+  - name: '@travelctm/icons'
+    version: 3.0.0-alpha.0
+    registry: npm
+    role: Icon set (Svelte snippets) plus a Vite plugin for importing .svg as snippets
+  design_assets:
+  - kind: Figma library
+    note: Linked from the Compass documentation site; access not verified (may be CTM-internal).
+  issue_tracker:
+  - kind: Jira project
+    note: Linked from the Compass documentation site for bug reporting; access not verified.
+- name: CTM Scout embedded widget
+  kind: embeddable-widget
+  loader: https://unpkg.com/scout-portal-prod@latest/scout.min.js
+  package: scout-portal-prod
+  version: 1.3.5
+  role: >-
+    Chat-based booking and servicing surface embedded into the CTM Portal. Loaded by the portal at
+    runtime via the `scoutSrcUrl` setting in its environmentSettings bootstrap block.
+  host_application: https://www.ctmsmart.com.au/
+hosted_surfaces:
+- name: CTM Portal
+  url: https://www.ctmsmart.com.au/
+  entry: https://portal.travelctm.com/ (redirects)
+  stack: SvelteKit single-page application
+  auth: Auth0 (travelctm-au-production.au.auth0.com)
+  access: Existing CTM customers only — no self-service sign-up.
+- name: Lightning online booking tool
+  url: https://booking.lightningbook.com.au/
+  stack: SvelteKit single-page application
+  attribution: >-
+    Named as `lightningBaseUrl: 'https://booking.lightningbook.com.au'` in the CTM Portal
+    environmentSettings block; Lightning is CTM's proprietary OBT.
+  access: Customer-gated.
+notes: >-
+  No embeddable component is offered to third parties. There is no documented way for a customer or
+  partner to mount a CTM component in their own application; Compass is published to public npm as a
+  by-product of CTM's own front-end engineering, and the documentation site carries no licence,
+  support channel or integration contract.

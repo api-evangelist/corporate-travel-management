@@ -1,0 +1,116 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Live probes of every Corporate Travel Management host in apis.yml plus the hosts named in the CTM
+  Portal client configuration at https://www.ctmsmart.com.au/ (environmentSettings block).
+summary: >-
+  CTM publishes no /.well-known/ discovery surface on any of its marketing or customer hosts — every
+  security.txt, api-catalog, ai-plugin.json, openid-configuration and oauth-authorization-server
+  probe against travelctm.com, its regional sites, portal.travelctm.com, www.ctmsmart.com.au and
+  apps.travelctm.com returns 404. The one real discovery surface CTM operates is the Auth0 tenant
+  that fronts the CTM Portal: travelctm-au-production.au.auth0.com serves a complete, anonymous
+  OpenID Connect discovery document (RFC 8414 / OIDC Discovery 1.0) plus JWKS. That tenant is named
+  in CTM's own portal bootstrap script, so attribution is direct.
+hosts:
+- host: https://travelctm-au-production.au.auth0.com
+  role: Identity provider for the CTM Portal (Auth0 AU region, production tenant)
+  attribution: >-
+    Named as `authDomain: 'travelctm-au-production.au.auth0.com'` in the environmentSettings block
+    served inline by https://www.ctmsmart.com.au/ (the CTM Portal, which portal.travelctm.com
+    redirects to).
+  documents:
+  - path: /.well-known/openid-configuration
+    spec: OpenID Connect Discovery 1.0
+    status: 200
+    file: corporate-travel-management-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    spec: RFC 8414
+    status: 200
+    file: corporate-travel-management-oauth-authorization-server.json
+  - path: /.well-known/jwks.json
+    spec: RFC 7517
+    status: 200
+    file: null
+    note: >-
+      Returns two RS256 signing keys. Not stored in the repo — keys rotate; fetch live from
+      https://travelctm-au-production.au.auth0.com/.well-known/jwks.json
+- host: https://www.travelctm.com
+  role: Global marketing site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://au.travelctm.com
+  role: Australia/New Zealand regional site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://us.travelctm.com
+  role: North America regional site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://uk.travelctm.com
+  role: EMEA regional site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://asia.travelctm.com
+  role: Asia regional site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://portal.travelctm.com
+  role: CTM Portal entry point (302 to www.ctmsmart.com.au)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: https://www.ctmsmart.com.au
+  role: CTM Portal application (Australasia)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+- host: https://portal-host.api.ctmsmart.com
+  role: CTM Portal host API (private, undocumented)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: https://compass.ctmdevelopment.com
+  role: Compass design system documentation site
+  documents:
+  - path: /llms.txt
+    status: 404
+  - path: /robots.txt
+    status: 404
+security_txt:
+  published: false
+  note: >-
+    No RFC 9116 security.txt is published on any CTM host. The only published security contact route
+    is the privacy mailbox (privacy@travelctm.com / DPO@travelctm.com) in the privacy policy.

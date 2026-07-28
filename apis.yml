@@ -37,8 +37,64 @@ tags:
 created: '2026-07-28'
 modified: '2026-07-28'
 specificationVersion: '0.19'
-apis: []
+apis:
+- aid: corporate-travel-management:ctm-portal-host-api
+  name: CTM Portal Host API
+  description: >-
+    The private back-end API for CTM Portal, CTM's single sign-on customer portal. It is not
+    documented, not announced and not offered to third parties — it was identified from the portal's
+    own client bootstrap, which sets hostApiUrl to https://portal-host.api.ctmsmart.com/api. The
+    host is live (GET / and GET /api return HTTP 200 text/plain "Healthy") and is an ASP.NET Core
+    application that emits RFC 7807-style application/problem+json errors, but every specification
+    path — /openapi.json, /swagger.json, /swagger/v1/swagger.json, /api-docs, /graphql — returns
+    404, and no /.well-known/oauth-protected-resource metadata is served. Calls are bearer-token
+    protected through CTM's Auth0 tenant (travelctm-au-production.au.auth0.com), whose OIDC
+    discovery document is the only anonymous machine-readable surface CTM operates. Recorded here
+    as an observed, undocumented integration surface, not as an available API: there is no
+    developer sign-up, no documentation, no sandbox and no terms permitting third-party use.
+  humanURL: https://www.ctmsmart.com.au/
+  baseURL: https://portal-host.api.ctmsmart.com/api
+  tags:
+  - Corporate Travel
+  - Travel
+  - Booking
+  - Undocumented
+  properties:
+  - type: Authentication
+    url: authentication/corporate-travel-management-authentication.yml
+  - type: OAuthScopes
+    url: scopes/corporate-travel-management-scopes.yml
+  - type: Conventions
+    url: conventions/corporate-travel-management-conventions.yml
+  - type: WellKnown
+    url: well-known/corporate-travel-management-well-known.yml
+  - type: Login
+    url: https://www.ctmsmart.com.au/
 common:
+- type: DomainSecurity
+  url: security/corporate-travel-management-domain-security.yml
+- type: WellKnown
+  url: well-known/corporate-travel-management-well-known.yml
+- type: OpenIDConnect
+  url: well-known/corporate-travel-management-openid-configuration.json
+- type: Authentication
+  url: authentication/corporate-travel-management-authentication.yml
+- type: OAuthScopes
+  url: scopes/corporate-travel-management-scopes.yml
+- type: Conventions
+  url: conventions/corporate-travel-management-conventions.yml
+- type: Conformance
+  url: conformance/corporate-travel-management-conformance.yml
+- type: Lifecycle
+  url: lifecycle/corporate-travel-management-lifecycle.yml
+- type: Packages
+  url: packages/corporate-travel-management-packages.yml
+- type: Components
+  url: components/corporate-travel-management-components.yml
+- type: LLMsTxt
+  url: llms/corporate-travel-management-llms.txt
+- type: Documentation
+  url: https://compass.ctmdevelopment.com/
 - type: Website
   url: https://www.travelctm.com/
 - type: Website

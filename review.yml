@@ -382,11 +382,158 @@ sources:
   - url: https://au.travelctm.com/sitemap_index.xml
     type: Sitemap
     note: Full page and technology sitemap enumeration; contains no developer, API or docs section.
+enrichmentRounds:
+  - date: '2026-07-28'
+    round: 2
+    method: >-
+      Deep contract discovery per the API Evangelist enrichment pipeline: probing every apis.yml host
+      AND the hosts named inside CTM's own client-side bootstrap configuration, public package
+      registries, and the /.well-known/ surface of CTM's identity provider.
+    summary: |
+      Round 1's conclusion stands — Corporate Travel Management publishes no API and no
+      machine-readable API contract. Round 2 nonetheless changed the record materially, because the
+      CTM Portal ships its configuration inline. Reading the environmentSettings block served by
+      https://www.ctmsmart.com.au/ surfaced four previously unrecorded CTM-operated hosts and led to
+      the first anonymous machine-readable documents this provider has ever been credited with.
+
+      1. A private API host exists and is live: portal-host.api.ctmsmart.com. GET / and GET /api
+         return HTTP 200 text/plain "Healthy". It is an ASP.NET Core application: GET /health
+         returns HTTP 500 with Content-Type application/problem+json and the body
+         {"Type":null,"Title":"Internal Server Error","Status":500,"Detail":"The AuthorizationPolicy
+         named: 'admin' was not found.","Instance":"/health","Extensions":{}} — policy-based
+         authorization, RFC 7807-shaped errors (PascalCase members, so the media type conforms and
+         the serialization does not). Every specification path 404s. This is the integration surface
+         round 1 inferred from CTM's marketing copy; it now has a hostname.
+      2. CTM Portal identity is Auth0: tenant travelctm-au-production.au.auth0.com, connection
+         SMART-Database-Connection. Its OIDC Discovery 1.0 and RFC 8414 documents and its JWKS are
+         anonymously fetchable (all HTTP 200) and are saved to well-known/.
+      3. CTM publishes first-party packages to public npm under an @travelctm scope —
+         @travelctm/compass (Svelte component library for CTM's Compass design system),
+         @travelctm/icons, @travelctm/auth0-utils — plus scout-portal-prod, the CTM Scout widget
+         bundle the portal loads from unpkg (155 releases, latest 2026-07-24). None is an API client
+         SDK, so no SDKs pointer was wired.
+      4. A public developer-facing documentation site exists that round 1 missed:
+         https://compass.ctmdevelopment.com/ (HTTP 200), the Compass design system documentation —
+         Foundations, Components, Patterns, with links to a Jira project and a Figma library. It is
+         the only developer documentation CTM publishes, and it documents UI, not APIs.
+      5. Lightning's production host is booking.lightningbook.com.au (lightningBaseUrl in the portal
+         config) — a SvelteKit SPA that returns its HTML shell for every path, including
+         /swagger/v1/swagger.json and /robots.txt.
+      6. A trust centre host exists but was never published: trust.travelctm.com serves the UpGuard
+         Trust Center shell, and https://trust.travelctm.com/api/trustpage/public/v1/ returns
+         {"status":"not_published"}. No TrustCenter pointer was wired.
+      7. CTM's PCI DSS page redirects to a real published Attestation of Compliance PDF: SAQ D –
+         Merchants, PCI DSS v3.2.1, self-assessment completed April 2021, signed by the Global CIO on
+         15 April 2021, ASV scanning by Qualys PCI, MOTO and e-commerce channels, 16 corporate
+         offices across Australia and New Zealand. Part 2f of that AOC names CTM's third-party
+         service providers and closes a round-1 gap: Sabre is the GDS ("CTM names no GDS partner
+         publicly" is now superseded), Tramada Systems provides agency/mid-office systems, traveller
+         profiles, payments and accounting, with Expedia (hotel content), Jetstar (airline bookings)
+         and Microsoft also listed. The attestation is a self-assessment against a standard retired
+         on 31 March 2024 and has not been refreshed to PCI DSS v4.
+    probes:
+      - url: https://portal-host.api.ctmsmart.com/
+        status: 200
+        note: text/plain "Healthy".
+      - url: https://portal-host.api.ctmsmart.com/api
+        status: 200
+        note: text/plain "Healthy". Named as hostApiUrl in the CTM Portal bootstrap.
+      - url: https://portal-host.api.ctmsmart.com/health
+        status: 500
+        note: application/problem+json; leaks a missing 'admin' AuthorizationPolicy.
+      - url: https://portal-host.api.ctmsmart.com/swagger/v1/swagger.json
+        status: 404
+      - url: https://portal-host.api.ctmsmart.com/openapi.json
+        status: 404
+      - url: https://portal-host.api.ctmsmart.com/api-docs
+        status: 404
+      - url: https://portal-host.api.ctmsmart.com/graphql
+        status: 404
+      - url: https://portal-host.api.ctmsmart.com/.well-known/openid-configuration
+        status: 404
+      - url: https://portal-host.api.ctmsmart.com/.well-known/oauth-protected-resource
+        status: 404
+      - url: https://travelctm-au-production.au.auth0.com/.well-known/openid-configuration
+        status: 200
+        note: Saved verbatim to well-known/corporate-travel-management-openid-configuration.json.
+      - url: https://travelctm-au-production.au.auth0.com/.well-known/oauth-authorization-server
+        status: 200
+        note: Saved verbatim to well-known/corporate-travel-management-oauth-authorization-server.json.
+      - url: https://travelctm-au-production.au.auth0.com/.well-known/jwks.json
+        status: 200
+        note: Two RS256 signing keys. Not stored — keys rotate.
+      - url: https://trust.travelctm.com/
+        status: 200
+        note: UpGuard Trust Center shell.
+      - url: https://trust.travelctm.com/api/trustpage/public/v1/
+        status: 200
+        note: '{"status":"not_published"} — provisioned but never published.'
+      - url: https://compass.ctmdevelopment.com/
+        status: 200
+        note: CTM Compass design system documentation, v1.3.0. Public.
+      - url: https://booking.lightningbook.com.au/
+        status: 200
+        note: Lightning OBT production host (SvelteKit SPA); returns its HTML shell for every path.
+      - url: https://registry.npmjs.org/-/v1/search?text=travelctm
+        status: 200
+        note: 3 packages in the @travelctm scope.
+      - url: https://registry.npmjs.org/scout-portal-prod
+        status: 200
+        note: 155 versions; maintainers with travelctm.com addresses.
+      - url: https://au.travelctm.com/wp-content/uploads/2021/09/Payment-Card-Industry-Data-Security-Standard.pdf
+        status: 200
+        note: PCI DSS v3.2.1 SAQ D Attestation of Compliance, signed 15 April 2021.
+      - url: https://www.travelctm.com/.well-known/api-catalog
+        status: 404
+      - url: https://www.travelctm.com/.well-known/ai-plugin.json
+        status: 404
+      - url: https://au.travelctm.com/llms.txt
+        status: 404
+      - url: https://us.travelctm.com/llms.txt
+        status: 404
+      - url: https://uk.travelctm.com/llms.txt
+        status: 404
+      - url: https://compass.ctmdevelopment.com/llms.txt
+        status: 404
+      - url: https://api.github.com/orgs/CTM-Engineering
+        status: 404
+        note: >-
+          @travelctm packages declare github.com/CTM-Engineering/lib-compass-svelte as their
+          repository, but neither the organization nor the repository is public. No
+          GitHubOrganization pointer was wired.
+      - url: https://status.travelctm.com/
+        status: 000
+        note: NXDOMAIN. No status page exists.
+    dnsProbes:
+      resolves:
+        - host: portal-host.api.ctmsmart.com
+          note: 104.210.72.45 — Azure. CTM Portal host API.
+        - host: trust.travelctm.com
+          note: 34.168.39.90 — UpGuard trust page (unpublished).
+        - host: compass.ctmdevelopment.com
+          note: 20.36.155.75 — Azure. Compass design system docs.
+        - host: booking.lightningbook.com.au
+          note: Lightning OBT production host.
+      nxdomain:
+        - status.travelctm.com
+        - security.travelctm.com
+        - api.ctmsmart.com
+        - ctmdevelopment.com
+        - developer.goctm.com
+        - api.goctm.com
+        - banx.travelctm.com
+        - datahub.travelctm.com
+        - support.travelctm.com
+        - help.travelctm.com
 actions:
-  apisListed: 0
+  apisListed: 1
   openapiHarvested: false
   specsCount: 0
   openapiDirectoryCreated: false
   reason: >-
-    No machine-readable API contract of any kind was found to harvest. Nothing was invented; apis[]
-    is intentionally empty and no openapi/ directory was created.
+    No machine-readable API contract of any kind was found to harvest — no OpenAPI, Swagger, GraphQL
+    SDL, AsyncAPI, Protobuf or MCP manifest exists on any CTM host, and nothing was invented. The
+    single apis[] entry added in the 2026-07-28 round is the CTM Portal host API
+    (portal-host.api.ctmsmart.com), recorded as an observed, undocumented, customer-gated back end
+    identified from CTM's own portal bootstrap — not as an available API. No openapi/ directory was
+    created.

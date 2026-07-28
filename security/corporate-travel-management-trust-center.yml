@@ -1,0 +1,30 @@
+generated: '2026-07-28'
+method: probed
+probe: true
+url: https://trust.travelctm.com/
+platform: UpGuard Trust Center
+published: false
+status: provisioned-not-published
+certifications: []
+evidence:
+- source: https://trust.travelctm.com/
+  status: 200
+  finding: >-
+    Serves the UpGuard Trust Center shell (title "UpGuard Trust Center", react-root, CR_HOSTNAME
+    cyber-risk.upguard.com). The page renders entirely client-side.
+- source: https://trust.travelctm.com/api/trustpage/public/v1/
+  status: 200
+  finding: 'Returns {"status":"not_published"} — the trust page content has never been published.'
+- source: https://au.travelctm.com/payment-card-industry-data-security-standard/
+  status: 200
+  finding: >-
+    The one compliance artefact CTM does publish is a PCI DSS v3.2.1 SAQ D Attestation of
+    Compliance PDF, dated April 2021. Captured in
+    conformance/corporate-travel-management-conformance.yml.
+notes: >-
+  Recorded as a negative-but-notable finding: Corporate Travel Management has stood up a branded
+  UpGuard trust-centre host on its own domain and left it unpublished, so there is no public
+  security posture, certification list, sub-processor list or document request flow. No TrustCenter
+  pointer is wired into apis.yml, because nothing is published behind the host. Re-probe the API
+  endpoint above on the next enrichment round — a status change from not_published is the signal
+  that CTM has opened its trust centre.
