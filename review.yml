@@ -1,0 +1,392 @@
+aid: corporate-travel-management
+name: Corporate Travel Management
+review:
+  question: Does Corporate Travel Management publish a public developer portal, API documentation,
+    or machine-readable API contract, and what would it cost a customer to leave?
+  answer: false
+  date: '2026-07-28'
+  reviewer: API Evangelist
+  method: Manual probe of travelctm.com and its regional sites, DNS resolution of candidate
+    developer hosts, sitemap enumeration, and reading of the published terms of use, privacy policy
+    and technology pages.
+findings:
+  summary: |
+    Corporate Travel Management (CTM) publishes no developer portal, no API documentation, and no
+    machine-readable API contract of any kind. Candidate developer hosts do not exist in DNS
+    (developer., developers., api., docs., dev., partner., partners., connect., data., sso.,
+    login., secure.travelctm.com all NXDOMAIN). Every conventional developer path returns HTTP 404
+    on au.travelctm.com, us.travelctm.com and uk.travelctm.com: /developers, /developer, /api,
+    /apis, /docs, /integrations, /partners, /openapi.json, /swagger.json, /api-docs,
+    /.well-known/security.txt, /.well-known/ai-plugin.json and /llms.txt.
+
+    Two non-marketing hosts do resolve and return 200 — portal.travelctm.com and
+    www.ctmsmart.com.au — but both serve the same "CTM Portal" customer login, reached from
+    au.travelctm.com/customer-portal-access/ which states that "Existing customers can access the
+    CTM Portal". Neither is a developer portal. apps.travelctm.com returns 200 with a 16-byte
+    "06 - Coming Soon" placeholder last modified 2023-06-15.
+
+    CTM is a buy-side intermediary, not a supplier. It is an IATA-accredited travel management
+    company that aggregates content from GDS, direct airline APIs and airline NDC connections and
+    resells it to corporate clients through a wholly proprietary, in-house technology stack:
+    Lightning (online booking tool), CTM Portal, CTM Approve, CTM Fare Forecaster, CTM Data Hub,
+    CTM Mobile App, CTM Scout, and in North America CTM Banx and CTM Advisor. CTM's US technology
+    page asserts that "CTM Technology integrates securely with existing enterprise systems"
+    including HR, expense and finance, ERP and single sign-on — so an integration surface demonstrably
+    exists — but no endpoint, schema, authentication method or version of that surface is published
+    anywhere. The interface is proprietary and undocumented.
+
+    On NDC, CTM is a consumer rather than a publisher. au.travelctm.com/ndc/ states that "CTM's
+    proprietary Lightning online booking tool integrates live NDC content directly from leading
+    airlines, including Qantas' Premium NDC connection" and that CTM can "aggregate and compare
+    content from multiple sources (GDS, APIs, NDC)". The US page names American Airlines and United
+    Airlines. No IATA NDC certification level is claimed on either page, no NDC schema version is
+    cited, and CTM publishes no NDC endpoint of its own — its NDC posture is entirely inbound.
+  probes:
+    - url: https://travelctm.com/
+      status: 200
+      note: Global marketing site.
+    - url: https://www.travelctm.com/
+      status: 200
+      note: Global marketing site.
+    - url: https://au.travelctm.com/
+      status: 200
+      note: Australia/New Zealand regional site — home market.
+    - url: https://us.travelctm.com/
+      status: 200
+    - url: https://uk.travelctm.com/
+      status: 200
+    - url: https://asia.travelctm.com/
+      status: 200
+    - url: https://nz.travelctm.com/
+      status: 200
+    - url: https://developer.travelctm.com/
+      status: 000
+      note: DNS NXDOMAIN — host does not exist.
+    - url: https://developers.travelctm.com/
+      status: 000
+      note: DNS NXDOMAIN — host does not exist.
+    - url: https://api.travelctm.com/
+      status: 000
+      note: DNS NXDOMAIN — host does not exist.
+    - url: https://docs.travelctm.com/
+      status: 000
+      note: DNS NXDOMAIN — host does not exist.
+    - url: https://portal.travelctm.com/
+      status: 200
+      note: Returns <title>CTM Portal</title>. Customer login, not a developer portal.
+    - url: https://www.ctmsmart.com.au/
+      status: 200
+      note: Returns <title>CTM Portal</title>. Australasian customer portal linked from
+        au.travelctm.com/customer-portal-access/.
+    - url: https://apps.travelctm.com/
+      status: 200
+      note: 16-byte placeholder page reading "06 - Coming Soon", last-modified 2023-06-15.
+    - url: https://www.travelctm.com/developers
+      status: 404
+    - url: https://www.travelctm.com/api
+      status: 404
+    - url: https://www.travelctm.com/docs
+      status: 404
+    - url: https://www.travelctm.com/openapi.json
+      status: 404
+    - url: https://www.travelctm.com/swagger.json
+      status: 404
+    - url: https://www.travelctm.com/api-docs
+      status: 404
+    - url: https://www.travelctm.com/.well-known/security.txt
+      status: 404
+    - url: https://www.travelctm.com/sitemap.xml
+      status: 404
+      note: Yoast sitemap lives per-region; robots.txt points to
+        https://au.travelctm.com/sitemap_index.xml.
+    - url: https://au.travelctm.com/sitemap_index.xml
+      status: 200
+      note: Enumerated post, page, technology, news and tag sitemaps. No developer, API or docs
+        section exists in any of them.
+    - url: https://us.travelctm.com/sitemap_index.xml
+      status: 200
+    - url: https://portal.travelctm.com/openapi.json
+      status: 404
+    - url: https://portal.travelctm.com/swagger.json
+      status: 404
+    - url: https://portal.travelctm.com/.well-known/openid-configuration
+      status: 404
+    - url: https://www.ctmsmart.com.au/openapi.json
+      status: 404
+    - url: https://www.ctmsmart.com.au/swagger.json
+      status: 404
+    - url: https://www.ctmsmart.com.au/api-docs
+      status: 404
+    - url: https://www.ctmsmart.com.au/.well-known/openid-configuration
+      status: 404
+    - url: https://au.travelctm.com/ndc/
+      status: 200
+      note: NDC posture page.
+    - url: https://us.travelctm.com/ndc/
+      status: 200
+    - url: https://au.travelctm.com/technology/
+      status: 200
+    - url: https://us.travelctm.com/technology/
+      status: 200
+    - url: https://au.travelctm.com/technology/lightning/
+      status: 200
+    - url: https://au.travelctm.com/technology/travel-portal/
+      status: 200
+    - url: https://au.travelctm.com/technology/travel-reporting/
+      status: 200
+      note: CTM Data Hub. No export, feed or API mentioned.
+    - url: https://au.travelctm.com/customer-portal-access/
+      status: 200
+    - url: https://au.travelctm.com/terms-and-conditions/
+      status: 200
+    - url: https://au.travelctm.com/privacy/
+      status: 200
+    - url: https://au.travelctm.com/blog/feed/
+      status: 200
+    - url: https://us.travelctm.com/feed/
+      status: 200
+    - url: https://investor.travelctm.com.au/
+      status: 200
+    - url: https://github.com/travelctm
+      status: 404
+      note: No GitHub organization at this handle.
+    - url: https://github.com/ctmtravel
+      status: 200
+      note: An organization exists at this handle but publishes no repositories, no description and
+        no public members. Ownership by Corporate Travel Management Limited could NOT be confirmed,
+        so it is not recorded in apis.yml.
+  dnsProbes:
+    nxdomain:
+      - developer.travelctm.com
+      - dev.travelctm.com
+      - api.travelctm.com
+      - docs.travelctm.com
+      - connect.travelctm.com
+      - data.travelctm.com
+      - partner.travelctm.com
+      - partners.travelctm.com
+      - sso.travelctm.com
+      - login.travelctm.com
+      - secure.travelctm.com
+      - lightning.travelctm.com
+    resolves:
+      - host: portal.travelctm.com
+        note: 3.24.254.207 — CTM Portal customer login.
+      - host: apps.travelctm.com
+        note: 184.185.6.155 — "Coming Soon" placeholder.
+      - host: my.travelctm.com
+        note: CNAME travelctm.mktoweb.com — Marketo marketing automation, not an API.
+switchingCost:
+  interfaceShape:
+    value: proprietary-undocumented
+    standard: >-
+      No standard is referenced for any CTM-published interface. The only standard CTM names
+      anywhere is IATA NDC, and it names it as content it CONSUMES from airlines, not as a contract
+      it exposes. No NDC message version (17.2 / 21.3 / etc.), no OpenTravel/OTA schema, no HTNG
+      profile and no OpenAPI document is cited on any CTM property.
+    evidence: >-
+      us.travelctm.com/technology/ states "CTM Technology integrates securely with existing
+      enterprise systems" spanning HR systems, expense and finance platforms, ERP systems and single
+      sign-on, and that CTM's technology "aggregates travel content from multiple sources – NDC,
+      GDS, APIs". An integration surface therefore exists, but zero technical documentation for it
+      is published: no host, no endpoint, no schema, no auth scheme, no versioning. Every developer
+      host is NXDOMAIN and every developer path 404s.
+    consequence: >-
+      Because the contract is proprietary and undocumented, nothing about a CTM integration is
+      portable. A client that has wired CTM into its HR, expense, ERP and SSO estate has built
+      against a shape only CTM implements, described only in a private statement of work, and no
+      competing TMC can be dropped into that shape.
+  secondSource:
+    value: alternatives-with-migration
+    alternativesConsidered:
+      - name: American Express Global Business Travel (Amex GBT, incl. Egencia)
+        note: Global TMC competitor; competes for the same managed corporate programs.
+      - name: BCD Travel
+        note: Global TMC competitor.
+      - name: FCM Travel and Corporate Traveller (Flight Centre Travel Group)
+        note: The other large Australian agency group, the direct domestic rival for ANZ corporate
+          and government accounts.
+      - name: Navan
+        note: Software-first US challenger with its own OBT and expense product.
+      - name: TravelPerk
+        note: Software-first European challenger.
+      - name: SAP Concur Travel with a separate fulfilment agency
+        note: Unbundles the booking tool from the agency, breaking CTM's tool-plus-service bundle.
+    assessment: >-
+      Corporate travel management is a genuinely contested market and programs are re-tendered on
+      multi-year cycles, so alternatives are real. Moving is nonetheless a project rather than a
+      swap: CTM's differentiator is that it builds and owns its own booking stack, so leaving means
+      replacing Lightning, CTM Portal, CTM Approve and CTM Data Hub, re-implementing traveller
+      profiles and policy configuration, re-establishing HR/expense/ERP/SSO connections against a
+      new vendor's undocumented interface, re-papering negotiated airline and hotel rates, and
+      reconciling unused-ticket credits held in the incumbent's systems.
+  exitPath:
+    value: export-on-request
+    operationCited: >-
+      No export, dump, bulk or data-portability OPERATION exists, because no API exists. The only
+      published mechanism is a manual privacy-rights request. au.travelctm.com/privacy/ commits to
+      "The right to receive the personal data you provided to us, in a structured, commonly used and
+      machine-readable format" for UK/EU data subjects, "The right to be provided with a copy of
+      your personal data" for UK/EU and Switzerland, and data portability of "the specific pieces of
+      personal information we collected about you" for California residents, exercised by contacting
+      an account manager or emailing privacy@travelctm.com (global) or DPO@travelctm.com (UK/EU/CH).
+    caveats: >-
+      This is a personal-data right belonging to individual travellers, not a corporate-account
+      export. It is manual, identity-verified and staff-processed; there is no self-service export.
+      The CTM Data Hub reporting product page (au.travelctm.com/technology/travel-reporting/)
+      describes dashboards and reports but names no export, download, scheduled feed, BI connector
+      or API. Program-level booking and spend history therefore has no published route out.
+  identifierPortability:
+    value: >-
+      No identifier scheme is published by CTM at all. Portable industry identifiers are implied but
+      not documented: CTM is an IATA-accredited agent (also ATIA-accredited in Australia), so
+      bookings it makes carry IATA airline and airport codes, GDS/airline PNR record locators, and
+      an IATA agency number on ticketing. Everything CTM itself keys on — traveller profiles, policy
+      objects, approval records, CTM Data Hub reporting rows, unused-ticket credits in CTM Banx — is
+      vendor-internal and undocumented.
+    assessment: >-
+      This is the classic TMC split: the parts a customer could carry to a competitor are the
+      industry codes it does not own, and the parts CTM adds value with are keyed on identifiers it
+      never exposes.
+  contractualLockIn:
+    published: partial
+    whatIsPublished: >-
+      Only a website terms of use is published. There is no public customer services agreement, so
+      no minimum term, exclusivity clause, full-content commitment, segment or transaction fee
+      schedule, or termination notice period can be verified. Notably, the published terms of use
+      declare their own scope to cover CTM's booking platforms, not merely the marketing site.
+    verbatim:
+      - source: https://au.travelctm.com/terms-and-conditions/
+        clause: Scope
+        text: "These terms and conditions apply to all websites and online travel platforms owned by
+          Corporate Travel Management Limited."
+      - source: https://au.travelctm.com/terms-and-conditions/
+        clause: 1. LIMITS ON USE
+        text: "You may not use this site or the services offered on or through it for personal gain
+          and you may not sell or provide to any third party, or otherwise profit from, any services
+          or information (nor any modification, adaptation or analysis of them) available on or
+          through this site."
+      - source: https://au.travelctm.com/terms-and-conditions/
+        clause: 4. LIMITED LICENCE & OWNERSHIP
+        text: "You are also prohibited from: (a) framing this site or any part of it on any other
+          site; or (b) mirroring this site on another server; or (c) using automated screen capture
+          or screen scraping technologies to obtain information of any sort from this site."
+      - source: https://au.travelctm.com/terms-and-conditions/
+        clause: 13. TERMINATION
+        text: "We reserve the right to block your access to this site immediately and without notice
+          if, in good faith, we believe that you have failed to comply with any of these terms of
+          use."
+    assessment: >-
+      The combination is the finding. There is no API, and the only published terms covering CTM's
+      "online travel platforms" prohibit automated extraction of information from them and prohibit
+      providing that information to any third party. A customer that wanted to lift its own booking
+      and spend data out of Lightning or CTM Data Hub without CTM's cooperation has no sanctioned
+      technical route and a published contractual prohibition on the unsanctioned one.
+  accessGate:
+    value: commercial-agreement
+    whatADeveloperMustDo: >-
+      There is nothing for a developer to sign up for. No developer program, application form, key
+      request, sandbox, trial or partner tier is published anywhere on travelctm.com or its regional
+      sites. Access to CTM systems is a consequence of being a contracted CTM client: the customer
+      portal page states that "Existing customers can access the CTM Portal", and integrations with
+      HR, expense, finance, ERP and SSO systems are delivered as part of a managed corporate travel
+      program through a CTM account team. On the supply side of the same market, the accreditation
+      that matters is IATA (and ATIA in Australia), which CTM holds and a prospective competitor
+      would need — but CTM does not resell or intermediate that accreditation through any published
+      API.
+    gated: true
+    selfServe: false
+  distributionModel:
+    value: aggregator-reseller
+    detail: >-
+      CTM is a buy-side intermediary. It aggregates supplier content from three channels — GDS,
+      direct airline APIs (a direct connection to Southwest Airlines is publicly reported in the
+      United States, and low-cost-carrier direct API connections are described on the Lightning
+      page), and airline NDC connections — and resells it to corporate clients through its own
+      Lightning OBT and agent desk. It reaches its customers directly through contracted managed
+      travel programs, not through any marketplace or reseller channel of its own.
+    upstreamDependency: >-
+      CTM remains GDS-intermediated for the bulk of its content. It names no GDS partner publicly,
+      but its NDC pages frame NDC as a way to escape "legacy" EDIFACT surcharges, which only makes
+      sense from a GDS-based baseline.
+  ndcPosture:
+    value: >-
+      NDC consumer, not NDC publisher. Lightning ingests live NDC content from airlines — Qantas'
+      Premium NDC connection in Australia, American Airlines and United Airlines in the United
+      States. No IATA NDC certification level is claimed on either the AU or US NDC page, no NDC
+      message schema version is cited, and CTM publishes no NDC endpoint, sandbox or documentation
+      of its own.
+    claims:
+      - source: https://au.travelctm.com/ndc/
+        text: "CTM's proprietary Lightning online booking tool integrates live NDC content directly
+          from leading airlines, including Qantas' Premium NDC connection."
+      - source: https://au.travelctm.com/ndc/
+        text: CTM describes aggregating and comparing "content from multiple sources (GDS, APIs,
+          NDC)" and states that by owning its full technology stack it "can deploy new NDC
+          functionality at speed."
+      - source: https://us.travelctm.com/ndc/
+        text: US page names American Airlines and United Airlines NDC content in Lightning and cites
+          elimination of legacy EDIFACT surcharges as a benefit.
+    caveat: >-
+      Savings percentages quoted on both NDC pages are CTM's own marketing figures and are recorded
+      here as claims, not as verified measurements.
+sources:
+  - url: https://www.travelctm.com/
+    type: Website
+    note: Global marketing site; regional selector for AUS/NZ, Americas, EMEA, Asia.
+  - url: https://au.travelctm.com/technology/
+    type: Documentation
+    note: Enumerates the CTM product family — Lightning, Business Travel Portal, Travel Forecasting,
+      Travel Reporting, CTM Scout, CTM Mobile App, Pre-Trip Approval, Travel Risk Management,
+      Ride-share, Sustainable Business Travel, NDC.
+  - url: https://us.travelctm.com/technology/
+    type: Documentation
+    note: Adds CTM Banx (unused tickets) and CTM Advisor (agent desktop); states enterprise
+      integration with HR, expense/finance, ERP and SSO systems with no technical detail.
+  - url: https://au.travelctm.com/technology/lightning/
+    type: Documentation
+    note: Lightning is built in-house by CTM and aggregates GDS, direct low-cost-carrier APIs and
+      NDC via CTM's "Global Content Factory".
+  - url: https://au.travelctm.com/ndc/
+    type: Documentation
+    note: Qantas Premium NDC connection; NDC consumed, not published.
+  - url: https://us.travelctm.com/ndc/
+    type: Documentation
+    note: American Airlines and United Airlines NDC content.
+  - url: https://au.travelctm.com/technology/travel-reporting/
+    type: Documentation
+    note: CTM Data Hub reporting and analytics; no export, feed or API described.
+  - url: https://au.travelctm.com/technology/travel-portal/
+    type: Documentation
+    note: CTM Portal with single sign-on; "seamlessly integrates a range of travel tools into a
+      single portal" with no external connectivity detail.
+  - url: https://au.travelctm.com/customer-portal-access/
+    type: Login
+    note: >-
+      "Existing customers can access the CTM Portal" — links to https://www.ctmsmart.com.au/.
+  - url: https://au.travelctm.com/terms-and-conditions/
+    type: TermsOfService
+    note: Website terms of use, self-scoped to "all websites and online travel platforms owned by
+      Corporate Travel Management Limited". Source of the verbatim clauses above.
+  - url: https://au.travelctm.com/privacy/
+    type: PrivacyPolicy
+    note: GDPR/UK/Swiss and California data-portability commitments; manual request only.
+  - url: https://au.travelctm.com/about/ctm-story/
+    type: About
+    note: >-
+      "Established in 1994"; Jamie Pherous named as Founder and MD; grown "from a two-person
+      start-up".
+  - url: https://investor.travelctm.com.au/
+    type: InvestorRelations
+    note: ASX-listed investor centre (ticker CTD).
+  - url: https://au.travelctm.com/sitemap_index.xml
+    type: Sitemap
+    note: Full page and technology sitemap enumeration; contains no developer, API or docs section.
+actions:
+  apisListed: 0
+  openapiHarvested: false
+  specsCount: 0
+  openapiDirectoryCreated: false
+  reason: >-
+    No machine-readable API contract of any kind was found to harvest. Nothing was invented; apis[]
+    is intentionally empty and no openapi/ directory was created.
