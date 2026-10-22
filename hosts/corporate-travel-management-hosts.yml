@@ -1,0 +1,280 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 24
+  own: 10
+  other_domain: 11
+  platform: 3
+  roles:
+  - api
+  - docs
+  - identity
+  - other
+  - portal
+  - website
+hosts:
+- host: api.com.au
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: api.com.au
+  role: api
+  relation: other-domain
+- host: api.ctmdevelopment.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: ctmdevelopment.com
+  role: api
+  relation: other-domain
+- host: api.ctmsmart.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: ctmsmart.com
+  role: api
+  relation: other-domain
+- host: api.supergood.ai
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  types: []
+  serves: []
+  status: 200
+  registrable_domain: supergood.ai
+  role: api
+  relation: other-domain
+- host: api.travelctm.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: travelctm.com
+  role: api
+  relation: own
+- host: asia.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  types:
+  - Website
+  serves: []
+  registrable_domain: travelctm.com
+  role: website
+  relation: own
+- host: au.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - well-known
+  types:
+  - Website
+  - Documentation
+  - Blog
+  - News
+  - TermsOfService
+  - PrivacyPolicy
+  - CookiePolicy
+  - Compliance
+  - Careers
+  - Contact
+  serves:
+  - docs
+  registrable_domain: travelctm.com
+  role: website
+  relation: own
+- host: careers.travelctm.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: travelctm.com
+  role: other
+  relation: own
+- host: compass.ctmdevelopment.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - well-known
+  types:
+  - DesignSystem
+  serves:
+  - docs
+  registrable_domain: ctmdevelopment.com
+  role: other
+  relation: other-domain
+- host: docs.supergood.ai
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  types: []
+  serves: []
+  title: API Docs | Supergood
+  status: 200
+  registrable_domain: supergood.ai
+  role: docs
+  relation: other-domain
+- host: go.travelctm.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: travelctm.com
+  role: other
+  relation: own
+- host: investor.travelctm.com.au
+  found_by:
+  - pointer
+  - probed
+  types:
+  - InvestorRelations
+  serves: []
+  registrable_domain: travelctm.com.au
+  role: other
+  relation: other-domain
+- host: portal-host.api.ctmsmart.com
+  found_by:
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - api
+  registrable_domain: ctmsmart.com
+  role: api
+  relation: other-domain
+- host: portal.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - well-known
+  types:
+  - DeveloperPortal
+  serves:
+  - docs
+  registrable_domain: travelctm.com
+  role: portal
+  relation: own
+- host: supergood.ai
+  found_by:
+  - probed
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: supergood.ai
+  role: other
+  relation: other-domain
+- host: travelctm-au-production.au.auth0.com
+  found_by:
+  - vendor-detect
+  types: []
+  serves:
+  - identity
+  vendor: auth0
+  registrable_domain: auth0.com
+  role: other
+  relation: other-domain
+- host: trust.travelctm.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: travelctm.com
+  role: other
+  relation: own
+- host: twitter.com
+  found_by:
+  - pointer
+  types:
+  - X
+  serves: []
+  registrable_domain: twitter.com
+  role: other
+  relation: platform
+- host: uk.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  types:
+  - Website
+  serves: []
+  registrable_domain: travelctm.com
+  role: website
+  relation: own
+- host: us.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - Website
+  - Documentation
+  - BlogRSS
+  serves: []
+  registrable_domain: travelctm.com
+  role: website
+  relation: own
+- host: www.ctmsmart.com.au
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - well-known
+  types:
+  - Login
+  serves:
+  - docs
+  registrable_domain: ctmsmart.com.au
+  role: identity
+  relation: other-domain
+- host: www.facebook.com
+  found_by:
+  - pointer
+  types:
+  - Facebook
+  serves: []
+  registrable_domain: facebook.com
+  role: other
+  relation: platform
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.travelctm.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Website
+  - BlogRSS
+  - Contact
+  - Newsroom
+  serves: []
+  registrable_domain: travelctm.com
+  role: website
+  relation: own

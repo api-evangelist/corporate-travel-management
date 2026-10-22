@@ -1,3 +1,29 @@
+generated: '2026-10-20'
+method: searched
+source:
+- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+- https://zapier.com/apps/corporate-travel-management/integrations
+- https://n8n.io/integrations/corporate-travel-management/
+- https://composio.dev/toolkits/corporate-travel-management
+- https://monid.ai/tools/corporate-travel-management
+checked:
+- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+- 'https://us.travelctm.com/technology/ (200; names only generic categories: "HR systems Expense and finance platforms
+  ERP systems Single sign-on (SSO) solutions" — no named partner)'
+- https://au.travelctm.com/technology/ (200)
+- https://uk.travelctm.com/technology/ (200)
+- https://au.travelctm.com/technology/travel-portal/ (200)
+- https://au.travelctm.com/partners/ (404)
+- https://www.travelctm.com/global/integrations/ (404)
+- https://zapier.com/apps/corporate-travel-management/integrations (404)
+- https://n8n.io/integrations/corporate-travel-management/ (404)
+- https://www.make.com/en/integrations/travelctm (403, unreadable)
+- https://composio.dev/toolkits/corporate-travel-management
+- https://monid.ai/tools/corporate-travel-management
+- https://n8n.io/integrations/corporate-travel-management/
+- https://zapier.com/apps/corporate-travel-management/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: Microsoft Teams (own)
   partner: microsoft-teams
@@ -18,9 +44,4 @@ edges:
   category: Microsoft Teams app
   publisher_verified:
   - Microsoft 365 Certified
-generated: '2026-10-18'
-method: searched
-source:
-- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
-checked:
-- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+templates: []

@@ -1,0 +1,11 @@
+name: Corporate Travel Management rate limits
+generated: '2026-10-20'
+method: none
+source: https://us.travelctm.com/technology/
+limit_count: 0
+limits: []
+headers: []
+note: >-
+  No public API and no developer documentation exist (no developer portal; the only API host seen,
+  portal-host.api.ctmsmart.com, backs the customer CTM Portal login). No rate limits, rate-limit
+  headers or exhaustion status codes are published.

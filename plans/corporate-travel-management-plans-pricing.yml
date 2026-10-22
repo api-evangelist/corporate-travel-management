@@ -1,0 +1,22 @@
+name: Corporate Travel Management pricing
+generated: '2026-10-20'
+method: none
+source: https://us.travelctm.com/technology/
+audience: business-product
+pricing_basis: negotiated
+published: false
+delivery:
+  model: managed
+plan_count: 0
+plans: []
+checked:
+- url: https://au.travelctm.com/pricing/
+  status: 404
+- url: https://us.travelctm.com/technology/
+  status: 200
+- url: https://au.travelctm.com/technology/
+  status: 200
+note: >-
+  CTM publishes no pricing page and no API plans. Its technology suite (Lightning, CTM Portal,
+  CTM Data Hub, CTM Approve) is provided to clients under managed-travel commercial agreements;
+  /pricing/ returns 404 and no tier or price is published anywhere probed.

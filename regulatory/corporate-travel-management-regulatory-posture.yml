@@ -1,0 +1,95 @@
+generated: '2026-10-20'
+method: searched
+probe: true
+source: https://au.travelctm.com/privacy/
+description: >-
+  Horizontal regulatory signals harvested from Corporate Travel Management's (CTM) own Privacy
+  Policy (with UK/EU, Swiss and California addenda) on au.travelctm.com. Nothing here decides which
+  regime applies. The Terms & Conditions page carried no regulatory signal (its only candidate was an
+  assignment clause), and the PCI DSS page resolves to a PDF attestation. The privacy policy names no
+  subprocessor list, breach-notification timeline, Global Privacy Control handling, accessibility
+  conformance, AI transparency or transparency report, so none are recorded. The policy shows no
+  "last updated" date in its text.
+signals:
+  data_subject_request:
+    url: https://au.travelctm.com/privacy/
+    section: '10. Your rights / UK-EU rights table / 38. California rights'
+    rights: [access, rectification, erasure, restriction, data portability, objection, withdraw consent, CCPA know/access]
+    channel: account manager or consultant first, then Global Enquiries / UK-EU Enquiries / Swiss contact
+    evidence:
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          10.3 – If you wish to exercise any of your rights as described in this Policy, please contact
+          your account manager or consultant in the first Otherwise, please contact us at our Global
+          Enquiries address below, or, if you are a resident of the UK or European Economic Area, please
+          contact our UK/EU Enquiries Contact below.
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          Data portability The right to receive the personal data you provided to us, in a structured,
+          commonly used and machine-readable format and/or transmit that data to a third party—in certain
+          situations
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          38.3 – Upon receipt of your request, and after we verify your identity, we may provide you with
+          information about the following: The categories of personal information we collected about you.
+    note: >-
+      A rights catalogue (GDPR-style table plus a California section) with a contact route, but no
+      self-service portal or response deadline stated in these clauses. Data portability appears here as
+      an individual privacy right, not as customer exit assistance, so exit_assistance is not recorded.
+  data_residency:
+    url: https://au.travelctm.com/privacy/
+    section: '7. Storage of personal data'
+    regions: [European Economic Area, United States, Australia, Singapore, People's Republic of China (PRC-collected data)]
+    evidence:
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          7.4 – CTM stores PII on servers with ISO/IEC certified cloud service providers (mainly in the
+          European Economic Area, United States, Australia and Singapore).
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          7.5 – For personal information collected in the People’s Republic of China (PRC), resident data
+          is stored in the PRC.
+    note: >-
+      States storage regions and a PRC in-country rule; section 7.3 says locations are chosen "based on
+      legal and contractual requirements, including data residency". No customer-selectable region is offered.
+  data_retention:
+    url: https://au.travelctm.com/privacy/
+    section: '8. Retention of personal data / 17. How long your personal data will be kept / 37. Retention'
+    evidence:
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          8.1 – CTM will retain your personal data for a period not exceeding that required for the
+          purposes for which they were collected to provide Services and comply with legal obligations
+          such as financial reporting and within limits prescribed by applicable regulations, and to
+          preserve evidence for the management of disputes, claims or litigation.
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          Following the end of the of the relevant retention period, we will delete or anonymise your
+          personal data. We abide by internal retention and disposal guidelines.
+    note: Purpose-limited retention with deletion/anonymisation at period end; no concrete periods published.
+  age_assurance:
+    url: https://au.travelctm.com/privacy/
+    section: '36. Personal Information of Minors'
+    evidence:
+      - source: https://au.travelctm.com/privacy/
+        http_status: 200
+        fetched: '2026-10-20'
+        quote: >-
+          36.1 – We do not knowingly collect personal information from children under 16 years of age and
+          we do not “sell” or “share,” as those terms are defined under applicable California privacy law,
+          the personal information of children under 16 years of age.
+    note: A knowing-collection disclaimer for under-16s (California addendum); no age-verification mechanism is described.

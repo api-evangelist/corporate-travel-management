@@ -1,8 +1,15 @@
 generated: '2026-07-28'
 method: probed
+source:
+- https://trust.travelctm.com/
+- https://trust.travelctm.com/api/trustpage/public/v1/
 probe: true
 url: https://trust.travelctm.com/
-platform: UpGuard Trust Center
+platform: self-hosted-or-unknown
+platform_name: UpGuard Trust Center
+platform_evidence: >-
+  Page title "UpGuard Trust Center" and CR_HOSTNAME cyber-risk.upguard.com in the served shell;
+  UpGuard is not in the schema's platform enum, so it is recorded here and in platform_name.
 published: false
 status: provisioned-not-published
 certifications: []

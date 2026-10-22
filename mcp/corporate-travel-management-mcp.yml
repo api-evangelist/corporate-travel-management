@@ -1,0 +1,30 @@
+name: Corporate Travel Management MCP Server
+type: MCPServer
+generated: '2026-10-20'
+method: none
+status: none
+source:
+- https://www.travelctm.com/
+description: >-
+  Checked, nothing there. Corporate Travel Management (CTM) publishes no MCP server, hosted or
+  local. Pre-flight contract discovery (2026-10-20) found no MCP surface on api.travelctm.com,
+  api.ctmdevelopment.com, api.ctmsmart.com or portal-host.api.ctmsmart.com, no documented MCP
+  tool table on any CTM host, and no MCP host. A web search found no official CTM MCP offering.
+  No candidate tool list was derived because CTM publishes no OpenAPI (or any other) contract to
+  ground one in.
+deployment:
+  mode: none
+  auth: unknown
+  verified: searched
+tools: []
+third_party:
+- name: Supergood unofficial Corporate Travel Management API / MCP
+  url: https://supergood.ai/api-report-card/corporate-travel-management
+  status: 200
+  official: false
+  note: >-
+    A third party (Supergood) states it maintains an unofficial CTM API and MCP server. It is not
+    published or endorsed by CTM and is not recorded as CTM's agent surface.
+not_to_confuse:
+- url: https://www.ctm.com/solutions/integrations/mcp
+  note: CallTrackingMetrics (ctm.com), an unrelated call-tracking company, not Corporate Travel Management.
