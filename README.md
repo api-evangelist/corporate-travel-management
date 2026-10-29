@@ -1,4 +1,4 @@
-# Corporate Travel Management (corporate-travel-management)
+# Corporate Travel Management
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,81 +64,108 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Corporate Travel Management (CTM) is a Brisbane-founded, ASX-listed (CTD) travel management company established in 1994 that procures, books and services corporate, government, meetings and events, resources, sport and leisure travel across Australia and New Zealand, North America, Europe and Asia. CTM sits on the buy side of the travel distribution chain: an IATA-accredited agency that aggregates supplier content from GDS, direct airline APIs and airline NDC connections and resells it to corporate clients through its own proprietary technology stack — the Lightning online booking tool, CTM Portal, CTM Mobile app, CTM Approve pre-trip approval, CTM Fare Forecaster and CTM Data Hub reporting.
+Corporate Travel Management (CTM) is a Brisbane-founded, ASX-listed (CTD) travel management company established in 1994 that procures, books and services corporate, government, meetings and events, resources, sport and leisure travel across Australia and New Zealand, North America, Europe and Asia. CTM sits on the buy side of the travel distribution chain: an IATA-accredited agency that aggregates supplier content from GDS, direct airline APIs and airline NDC connections and resells it to corporate clients through its own proprietary technology stack — the Lightning online booking tool, CTM Portal, CTM Mobile app, CTM Approve pre-trip approval, CTM Fare Forecaster and CTM Data Hub reporting. Its API posture is closed. CTM publishes no developer portal and no public API: developer.travelctm.com, developers.travelctm.com, api.travelctm.com and docs.travelctm.com do not resolve in DNS, and /developers, /api, /docs, /openapi.json, /swagger.json, /api-docs and /.well-known/security.txt all return HTTP 404 across the AU, US and UK sites. The only live non-marketing front door is a customer login — CTM Portal at www.ctmsmart.com.au (portal.travelctm.com now shows a "We've moved" notice pointing there). CTM's technology pages assert secure integration with client HR, expense, finance, ERP and single sign-on systems, but no interface contract, schema or endpoint is documented anywhere in public: the integration surface is proprietary and undocumented, reachable only under a managed-travel commercial agreement. The only published exit path is a GDPR/CCPA data-portability request by email to privacy@travelctm.com or DPO@travelctm.com; there is no self-service export.
 
-Its API posture is closed. CTM publishes no developer portal and no public API: `developer.travelctm.com`, `developers.travelctm.com`, `api.travelctm.com` and `docs.travelctm.com` do not resolve in DNS, and `/developers`, `/api`, `/docs`, `/openapi.json`, `/swagger.json`, `/api-docs` and `/.well-known/security.txt` all return HTTP 404 across the AU, US and UK sites. The only live non-marketing front door is a customer login — CTM Portal at `portal.travelctm.com` and `www.ctmsmart.com.au`.
+**Areas:** Travel · Australia · Corporate Travel · Travel Management Company · Aviation · NDC · Distribution · Booking · Hotels · Meetings and Events
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/corporate-travel-management/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/corporate-travel-management/refs/heads/main/apis.yml)
+## Corporate Travel Management on APIs.io
 
-## Tags
+Everything profiled for Corporate Travel Management is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/corporate-travel-management/](https://apis.io/providers/corporate-travel-management/)** — or go straight to one of the APIs or properties below.
 
-- Travel
-- Australia
-- Corporate Travel
-- Travel Management Company
-- Aviation
-- NDC
-- Distribution
-- Booking
-- Hotels
-- Meetings and Events
+### APIs (1)
 
-## Timestamps
+- [CTM Portal Host API](https://apis.io/apis/corporate-travel-management/ctm-portal-host-api/) — The private back-end API for CTM Portal, CTM's single sign-on customer portal. It is not documented, not announced and not offered to third parties — it was…
 
-- **Created:** 2026-07-28
-- **Modified:** 2026-07-28
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-None documented. Corporate Travel Management publishes no developer portal, no API documentation and no machine-readable API contract — no OpenAPI, Swagger, GraphQL SDL, AsyncAPI, Protobuf or MCP manifest exists on any CTM host.
+#### Security (3)
 
-One **undocumented** API host is recorded in `apis.yml`: the **CTM Portal Host API** at `https://portal-host.api.ctmsmart.com/api`, identified from the CTM Portal's own inline bootstrap configuration (`hostApiUrl`). It is live (`GET /` returns `Healthy`), runs on ASP.NET Core with policy-based authorization and `application/problem+json` errors, and is bearer-token protected through CTM's Auth0 tenant. Every specification path returns 404. It is listed as an observed integration surface, not as an available API — there is no documentation, sign-up, sandbox or terms permitting third-party use.
+Authentication, trust centre, and vulnerability disclosure.
 
-See [review.yml](review.yml) for the full probe log and HTTP status of every URL tested.
+- [Corporate Travel Management Authentication](https://apis.io/security/corporate-travel-management/corporate-travel-management-authentication/)
+- [Corporate Travel Management Domain Security](https://apis.io/security/corporate-travel-management/corporate-travel-management-domain-security/)
+- [Corporate Travel Management Trust Center](https://apis.io/security/corporate-travel-management/corporate-travel-management-trust-center/)
 
-## What CTM does publish
+#### OAuth scopes (1)
 
-| Surface | Finding |
-| --- | --- |
-| Identity discovery | Auth0 tenant `travelctm-au-production.au.auth0.com` serves anonymous [OIDC Discovery](well-known/corporate-travel-management-openid-configuration.json) and [RFC 8414](well-known/corporate-travel-management-oauth-authorization-server.json) metadata plus JWKS — the only machine-readable documents CTM operates. |
-| Packages | Four first-party npm packages: `@travelctm/compass`, `@travelctm/icons`, `@travelctm/auth0-utils`, and `scout-portal-prod` (the CTM Scout widget the portal loads from unpkg). None is an API client SDK. |
-| Developer docs | [compass.ctmdevelopment.com](https://compass.ctmdevelopment.com/) — CTM's Compass design system documentation (Foundations / Components / Patterns). The only developer-facing documentation CTM publishes, and it documents UI, not APIs. |
-| Compliance | A real [PCI DSS v3.2.1 SAQ D Attestation of Compliance](https://au.travelctm.com/wp-content/uploads/2021/09/Payment-Card-Industry-Data-Security-Standard.pdf), self-assessed April 2021, not refreshed to PCI DSS v4. Part 2f names Sabre as CTM's GDS and Tramada Systems as its agency/mid-office platform. |
-| Trust centre | `trust.travelctm.com` serves an UpGuard Trust Center shell whose public API returns `{"status":"not_published"}` — provisioned and never published. |
-| Status / lifecycle | Nothing. No status page, versioning policy, deprecation policy, changelog, SLA or roadmap. |
-| security.txt | None on any CTM host. |
+The permissions the API asks for.
 
-## Switching Cost
+- [Corporate Travel Management Scopes](https://apis.io/scopes/corporate-travel-management/corporate-travel-management-scopes/)
 
-| Dimension | Finding |
-| --- | --- |
-| Interface shape | `proprietary-undocumented` — an integration surface for client HR, expense, finance, ERP and SSO systems is asserted on the technology pages, but no endpoint, schema, auth scheme or version is published. No standard is referenced for any CTM-published interface. |
-| Second source | `alternatives-with-migration` — Amex GBT/Egencia, BCD Travel, FCM Travel and Corporate Traveller (Flight Centre), Navan, TravelPerk, or SAP Concur Travel with a separate fulfilment agency. Programs are genuinely re-tendered; moving is a re-implementation project. |
-| Exit path | `export-on-request` — no export operation exists because no API exists. Only the GDPR/UK/Swiss and California personal-data portability rights in the privacy policy, exercised by email to `privacy@travelctm.com` or `DPO@travelctm.com`. CTM Data Hub documents no export, feed or connector. |
-| Identifier portability | Not published. IATA airline/airport codes, PNR record locators and an IATA agency number are implied by CTM's accreditation; traveller profiles, policy objects, approvals, Data Hub rows and unused-ticket credits are keyed on undocumented vendor-internal identifiers. |
-| Contractual lock-in | No customer services agreement is published. The website terms of use — self-scoped to "all websites and online travel platforms owned by Corporate Travel Management Limited" — prohibit "using automated screen capture or screen scraping technologies to obtain information of any sort from this site" and prohibit providing information from the site to any third party. |
-| Access gate | `commercial-agreement` — no developer program, key request, sandbox or partner tier exists. Access follows from being a contracted CTM client; "Existing customers can access the CTM Portal". |
-| Distribution model | `aggregator-reseller` — buy-side intermediary aggregating GDS, direct airline APIs and NDC, reselling through its own OBT and agent desk. Still GDS-intermediated for the bulk of content. |
-| NDC posture | NDC consumer, not publisher. Lightning ingests live NDC from Qantas (Premium NDC connection), American Airlines and United Airlines. No IATA certification level claimed, no NDC endpoint published. |
+#### Plans and pricing (1)
 
-## Properties
+Published plans, tiers and prices.
+
+- [Corporate Travel Management Plans Pricing](https://apis.io/plans/corporate-travel-management/corporate-travel-management-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Corporate Travel Management Rate Limits](https://apis.io/rate-limits/corporate-travel-management/corporate-travel-management-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.travelctm.com/)
-- [Website — Australia/New Zealand](https://au.travelctm.com/)
-- [Portal (customers only)](https://portal.travelctm.com/)
-- [Login — CTM Portal Australasia](https://www.ctmsmart.com.au/)
-- [Technology](https://au.travelctm.com/technology/)
-- [Lightning](https://au.travelctm.com/technology/lightning/)
-- [NDC](https://au.travelctm.com/ndc/)
-- [Travel Reporting — CTM Data Hub](https://au.travelctm.com/technology/travel-reporting/)
+- [Documentation](https://au.travelctm.com/technology/)
 - [Blog](https://au.travelctm.com/blog/)
-- [Blog RSS](https://au.travelctm.com/blog/feed/)
-- [News](https://au.travelctm.com/news/)
-- [Terms of Service](https://au.travelctm.com/terms-and-conditions/)
-- [Privacy Policy](https://au.travelctm.com/privacy/)
-- [Investor Relations](https://investor.travelctm.com.au/)
-- [LinkedIn](https://www.linkedin.com/company/corporate-travel-management-ctm-group)
+- [Compliance](https://au.travelctm.com/payment-card-industry-data-security-standard/)
+- [Terms of service](https://au.travelctm.com/terms-and-conditions/)
+- [Privacy policy](https://au.travelctm.com/privacy/)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com — https://kinlane.com
+**Kin Score 29.3** — thin · rubric 0.24.0 · scored 2026-10-20
+
+| Facet | Score |
+|---|---|
+| Discoverability | 67.0 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 43.4 |
+
+**Agent readiness 17.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/corporate-travel-management/](https://apis.io/providers/corporate-travel-management/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Corporate Travel Management: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/corporate-travel-management/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
